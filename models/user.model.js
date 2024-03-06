@@ -13,14 +13,17 @@ export const UserModel = (sequelize, Sequelize) => {
     totalTime: {
       type: Sequelize.INTEGER,
     },
+    phone: {
+      type: Sequelize.STRING,
+    },
+    showPhone: {
+      type: Sequelize.BOOLEAN,
+    },
     isOrganisation: {
       type: Sequelize.BOOLEAN,
     },
     avatar_id: {
       type: Sequelize.INTEGER,
-    },
-    image: {
-      type: Sequelize.BLOB,
     },
     email: {
       type: Sequelize.STRING,

@@ -2,14 +2,12 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log('1')
     cb(null, 'images/')
-    console.log('2')
   },
   filename: function (req, file, cb) {
-    console.log('3')
-    cb(null, new Date().toISOString() + '-' + file.originalname)
-    console.log('4')
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]
+      )
   }
 });
 
@@ -22,4 +20,4 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   };
 };
-export default multer({ storage, fileFilter });
+export const middlewareMulter = multer({ storage, fileFilter });
