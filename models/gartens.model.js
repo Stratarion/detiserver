@@ -3,7 +3,7 @@ export const GartenModel = (sequelize, Sequelize) => {
     name: {
         type: Sequelize.STRING
     },
-    maxConut: {
+    maxCount: {
         type: Sequelize.STRING
     },
     description: {

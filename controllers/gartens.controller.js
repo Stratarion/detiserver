@@ -33,7 +33,6 @@ export const createGarten = async (req, res) => {
     });
     return;
   }
-  console.log("!!!!!!!!!!!!!!!!!!!", item)
 
   const newGarten = {
     createdAt: new Date().toISOString(),
@@ -47,8 +46,6 @@ export const createGarten = async (req, res) => {
     costInfo: item.costInfo,
     owner: item.owner,
   }
-
-  console.log("!!!!!!!!!!!!!!!!!!!", newGarten)
 
   Garten.create(newGarten)
   .then(data => {

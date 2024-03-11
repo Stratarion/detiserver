@@ -1,9 +1,9 @@
 export const dbConfig = {
-    HOST: "79.174.88.74",
-    USER: "user1",
-    PASSWORD: "Olepop45685@",
-    DB: "db1",
-    PORT: "17442",
+    HOST: "127.0.0.1",
+    USER: "root",
+    PASSWORD: "",
+    DB: "start",
+    PORT: "3306",
     dialect: "mysql",
     dialectOptions: {
       charset: 'utf8',
