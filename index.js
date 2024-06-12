@@ -6,10 +6,10 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import defaultHeaders from "./middleware/headers.js";
 import postRoutes from './routes/posts.js';
-import gartensRoutes from './routes/gartens.js';
 import userRouter from "./routes/user.js";
+import organisationsRoutes from "./routes/organisations.js";
 import uploadRouter from "./routes/upload.js";
-import { findAllTutorial, createTutorial } from './controllers/tutorial.controller.js';
+import workerRouter from "./routes/worker.js";
 import db from './models/index.js';
 
 
@@ -29,12 +29,10 @@ app.get("/", (req, res) => {
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/posts', postRoutes);
-app.use('/gartens', gartensRoutes);
+app.use('/organisations', organisationsRoutes);
+app.use('/worker', workerRouter);
 app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
-app.get("/tutorials", findAllTutorial);
-app.post('/tutorials/create', createTutorial);
-
 const PORT = process.env.PORT|| 5000;
 
 db.sequelize.sync();

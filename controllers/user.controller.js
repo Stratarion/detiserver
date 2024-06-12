@@ -9,14 +9,11 @@ export const signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log('start')
     const oldUser = await User.findOne({ where: { email } });
-    console.log(oldUser);
     if (!oldUser) return res.status(404).json({ message: "Пользователь не создан" });
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
     if (!isPasswordCorrect) return res.status(400).json({ message: "Неверные логин или пароль" });
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
-    console.log(token);
     res.status(201).json({ result: oldUser, token, status: 201 });
   } catch (err) {
     res.status(500).json({ message: "Что-то пошло не так" });
@@ -24,12 +21,11 @@ export const signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, name, isOrganisation } = req.body;
+  const { email, password, name, isOrganisation, address } = req.body;
   if (!email || !password || !name) {
     res.status(500).json("Не заполнены обязательные поля");
     return
   };
-  console.log(email);
   const oldUser = await User.findOne({ where: { email } });
   if (oldUser) {
     res.status(400).json({ message: "Такой пользователь уже существует" });
@@ -38,7 +34,7 @@ export const signup = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 12);
 
   try {
-    const result = await User.create({ email, password: hashedPassword, name, isOrganisation });
+    const result = await User.create({ email, password: hashedPassword, name, isOrganisation: isOrganisation ? 1 : 0, address });
     const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
     res.status(200).json({ result, token });
   } catch (error) {
@@ -80,3 +76,14 @@ export const destroyUsers = async (req, res) => {
     });
   })
 }
+
+export const authUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { email: req.user.email } });
+    const token = jwt.sign({ email: user.email, id: user.id }, secret, { expiresIn: "1h" });
+    res.status(201).json({ result: user, token, status: 201 });
+  } catch (error) {
+    res.send(error);
+  }
+}
+
