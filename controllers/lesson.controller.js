@@ -1,21 +1,20 @@
 import db from "../models/index.js";
 
-const Worker = db.worker;
+const Lesson = db.lesson;
 
-export const createWorker = async (req, res) => {
-  const worker = req.body;
-  if (!worker.name || !worker.org_id ||!worker.description) {
+export const createLesson = async (req, res) => {
+  const lesson = req.body;
+  if (!lesson.name || !lesson.org_id ||!lesson.description) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
-  const newWorker = {
-    name: worker.name,
-    org_id: worker.org_id,
-    description: worker.description,
+  const newLesson = {
+    name: lesson.name,
+    org_id: lesson.org_id,
+    description: lesson.description,
     createdAt: new Date().toISOString(),
   };
-  console.log(newWorker);
-  Worker.create(newWorker).then((data) => {
+  Lesson.create(newLesson).then((data) => {
     res.send(data);
   }).catch((err) => {
     res.status(500).send({
@@ -25,9 +24,9 @@ export const createWorker = async (req, res) => {
   });
 }
 
-export const getWorkersByOrgId = async (req, res) => {
+export const getLessonsByOrgId = async (req, res) => {
   const { org_id } = req.query;
-  Worker.findAll({ where: { org_id } }).then((data) => {
+  Lesson.findAll({ where: { org_id } }).then((data) => {
     res.send(data);
   }).catch((err) => {
     res.status(500).send({

@@ -1,9 +1,7 @@
-import express from 'express';
 import db from "../models/index.js";
 
 const Organisation = db.organisation;
 
-const router = express.Router();
 
 export const getOrganisations = async (req, res) => {
   const { page } = req.query;
@@ -73,5 +71,3 @@ export const destroyOrganisations = async(req, res) => {
     });
   })
 }
-
-export default router;

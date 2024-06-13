@@ -10,6 +10,7 @@ import userRouter from "./routes/user.js";
 import organisationsRoutes from "./routes/organisations.js";
 import uploadRouter from "./routes/upload.js";
 import workerRouter from "./routes/worker.js";
+import lessonRouter from "./routes/lesson.js";
 import db from './models/index.js';
 
 
@@ -32,6 +33,7 @@ app.use('/posts', postRoutes);
 app.use('/organisations', organisationsRoutes);
 app.use('/worker', workerRouter);
 app.use('/user', userRouter);
+app.use('/lesson', lessonRouter);
 app.use('/upload', uploadRouter);
 const PORT = process.env.PORT|| 5000;
 
