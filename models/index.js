@@ -10,6 +10,7 @@ import { BackFeedPhotoModel } from "./back_feed_photo.js";
 import { OrganisationModel } from "./organisation.model.js";
 import { WorkerModel } from "./worker.model.js";
 import { LessonModel } from "./lesson.model.js";
+import { ShedulleModel } from "./shedulle.model.js";
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   port: dbConfig.PORT,
@@ -45,4 +46,5 @@ db.back_feed_photo = BackFeedPhotoModel(sequelize, Sequelize);
 db.organisation = OrganisationModel(sequelize, Sequelize);
 db.worker = WorkerModel(sequelize, Sequelize);
 db.lesson = LessonModel(sequelize, Sequelize);
+db.shedulle = ShedulleModel(sequelize, Sequelize);
 export default db;

@@ -1,7 +1,7 @@
 export const LessonModel = (sequelize, Sequelize) => {
     const Lesson = sequelize.define("lesson", {
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       org_id: {
         type: Sequelize.INTEGER
