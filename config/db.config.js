@@ -1,8 +1,8 @@
 export const dbConfig = {
-    HOST: "127.0.0.1",
-    USER: "root",
-    PASSWORD: "",
-    DB: "start",
+    HOST: "server38.hosting.reg.ru",
+    USER: "u2506423_olepopo",
+    PASSWORD: "olepop456852",
+    DB: "u2506423_app_vol",
     PORT: "3306",
     dialect: "mysql",
     dialectOptions: {
