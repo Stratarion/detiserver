@@ -57,12 +57,6 @@ export const OrganisationModel = (sequelize, Sequelize) => {
     director_name: {
         type: Sequelize.STRING
     },
-    geo1: {
-        type: Sequelize.DOUBLE
-    },
-    geo2: {
-        type: Sequelize.DOUBLE
-    },
     createdAt: {
         type: Sequelize.DATE,
         default: new Date(),

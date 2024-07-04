@@ -22,7 +22,7 @@ export const UserModel = (sequelize, Sequelize) => {
     isOrganisation: {
       type: Sequelize.BOOLEAN,
     },
-    avatar_id: {
+    avatar_url: {
       type: Sequelize.INTEGER,
     },
     email: {

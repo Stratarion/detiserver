@@ -17,7 +17,7 @@ export const signin = async (req, res) => {
     res.status(201).json({ result: oldUser, token, status: 201 });
   } catch (err) {
     res.status(500).json({ message: "Что-то пошло не так" });
-  }
+  };
 };
 
 export const signup = async (req, res) => {
@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Что-то пошло не так" });
     console.log(error);
-  }
+  };
 };
 
 export const getUserList = async (req, res) => {
@@ -56,14 +56,14 @@ export const getUserList = async (req, res) => {
           }
         });
         res.json({ data: mappedUsers, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT), totalCount: total});
-      })    
+      }) 
   } catch (error) {
     res.status(500).send({
       message:
         err.message || "Произошла ошибка при получении списка пользователей"
     });
-  }
-}
+  };
+};
 
 export const destroyUsers = async (req, res) => {
   User.sync({ force: true }).then(() => {
@@ -74,8 +74,8 @@ export const destroyUsers = async (req, res) => {
       message:
         err.message || "Произошла ошибка при удалении таблицы"
     });
-  })
-}
+  });
+};
 
 export const authUser = async (req, res) => {
   try {
@@ -84,6 +84,22 @@ export const authUser = async (req, res) => {
     res.status(201).json({ result: user, token, status: 201 });
   } catch (error) {
     res.send(error);
+  };
+};
+
+export const userUpdate = async (req, res) => {
+  try {
+    const { avatar_url, id } = req.body;
+    if (!avatar_url) {
+      res.status(500).json("Не заполнены обязательные поля");
+      return;
+    };
+    const user = await User.findOne({ where: { id }});
+    user.avatar_url = avatar_url;
+    await user.save();
+    res.send("Пользователь обновлён");
+  } catch (error) {
+    res.send(error);
   }
-}
+};
 

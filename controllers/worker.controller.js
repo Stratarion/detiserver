@@ -14,7 +14,6 @@ export const createWorker = async (req, res) => {
     description: worker.description,
     createdAt: new Date().toISOString(),
   };
-  console.log(newWorker);
   Worker.create(newWorker).then((data) => {
     res.send(data);
   }).catch((err) => {

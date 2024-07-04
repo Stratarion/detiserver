@@ -41,6 +41,7 @@ export const createOrganisation = async (req, res) => {
     createdAt: new Date().toISOString(),
     name: item.name,
     description: item.description,
+    address: item.address,
     type: item.type,
     email: item.email,
     schoolType: item.schoolType,
