@@ -45,8 +45,8 @@ export const OrganisationModel = (sequelize, Sequelize) => {
     address: {
         type: Sequelize.STRING
     },
-    awatar_id: {
-        type: Sequelize.INTEGER
+    avatar_url: {
+        type: Sequelize.STRING
     },
     phone: {
         type: Sequelize.STRING

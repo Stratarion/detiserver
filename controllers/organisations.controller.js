@@ -71,4 +71,21 @@ export const destroyOrganisations = async(req, res) => {
         err.message || "Произошла ошибка при удалении таблицы"
     });
   })
-}
+};
+
+export const organisationUpdate = async (req, res) => {
+  try {
+    const { avatar_url, id } = req.body;
+    console.log(avatar_url)
+    if (!avatar_url) {
+      res.status(500).json("Не заполнены обязательные поля");
+      return;
+    };
+    const org = await Organisation.findOne({ where: { id }});
+    org.avatar_url = avatar_url;
+    await org.save();
+    res.send("Пользователь обновлён");
+  } catch (error) {
+    res.send(error);
+  }
+};
