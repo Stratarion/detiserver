@@ -1,14 +1,30 @@
 import db from "../models/index.js";
+import { Sequelize } from "sequelize";
 
 const Organisation = db.organisation;
 
 
 export const getOrganisations = async (req, res) => {
   const { page } = req.query;
+  const { filters } = req.body;
   const LIMIT = 2;
-  const total = await Organisation.count();
-  Organisation.findAll()
+  console.log("Loading");
+  Organisation.findAll({
+    where: {
+      // [Op.and]: filters.map(filter => ({
+      //   [filter.field]: {
+      //     [Op.like]: `%${filter.value}%`
+      //   }
+      // })) хороший вариант фильтрации универсальной, если есть много полей подходящих под одну фильтрацию
+      [Sequelize.Op.and]: [
+        // { name: filters.name },
+        { name: { [Sequelize.Op.like]: "2"} },
+        // { schoolType: filters.schoolType }
+      ]
+    }
+  })
   .then(data => {
+    const total = data.length - 1;
     const mappedOrganisation = data.map(item => item.dataValues);
     res.json({ data: mappedOrganisation, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT), totalCount: total});
 

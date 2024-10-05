@@ -3,6 +3,6 @@ const router = express.Router();
 
 import { getGartens } from "../controllers/gartens.controller.js";
 
-router.get("/", getGartens);
+router.post("/", getGartens);
 
 export default router;
