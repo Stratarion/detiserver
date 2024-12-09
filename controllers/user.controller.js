@@ -21,19 +21,18 @@ export const signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, name, isOrganisation, address } = req.body;
-  if (!email || !password || !name) {
-    res.status(500).json("Не заполнены обязательные поля");
-    return
-  };
-  const oldUser = await User.findOne({ where: { email } });
-  if (oldUser) {
-    res.status(400).json({ message: "Такой пользователь уже существует" });
-    return
-  }
-  const hashedPassword = await bcrypt.hash(password, 12);
-
   try {
+    const { email, password, name, isOrganisation, address } = req.body;
+    if (!email || !password || !name) {
+      res.status(500).json("Не заполнены обязательные поля");
+      return
+    };
+    const oldUser = await User.findOne({ where: { email } });
+    if (oldUser) {
+      res.status(400).json({ message: "Такой пользователь уже существует" });
+      return
+    }
+    const hashedPassword = await bcrypt.hash(password, 12);
     const result = await User.create({ email, password: hashedPassword, name, isOrganisation: isOrganisation ? 1 : 0, address });
     const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
     res.status(200).json({ result, token });

@@ -124,18 +124,34 @@ export const getGardenList = async (req, res) => {
 }
 
 export const getOrganisationById = async (req, res) => {
-  const id = req.query.id;
-  const organisation = await Organisation.findOne({ where: { id } });
-  const reviews = await Reviews.findAll({ where: { orgId: id } });
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-  console.log(reviews)
-  res.json({...organisation.dataValues, reviewCount: reviews.length, totalRating });
+  try {
+    const id = req.query.id;
+    const organisation = await Organisation.findOne({ where: { id } });
+    const reviews = await Reviews.findAll({ where: { orgId: id } });
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    console.log(reviews)
+    res.json({...organisation.dataValues, reviewCount: reviews.length, totalRating });
+  } catch (error) {
+    res.status(500).send({
+      message:
+        err.message || "Произошла ошибка при получении организации"
+    });
+  }
+
 }
 
 export const getOrganisationByUserId = async (req, res) => {
-  const userId = req.query.id;
-  const organisations = await Organisation.findAll({ where: { creater_id: userId } });
-  res.json(organisations);
+  try {
+    const userId = req.query.id;
+    const organisations = await Organisation.findAll({ where: { creater_id: userId } });
+    res.json(organisations);
+  } catch (error) {
+    res.status(500).send({
+      message:
+        err.message || "Произошла ошибка при получении организации"
+    });
+  }
+
 }
 
 export const createOrganisation = async (req, res) => {
