@@ -89,13 +89,14 @@ export const authUser = async (req, res) => {
 
 export const userUpdate = async (req, res) => {
   try {
-    const { avatar_url, id } = req.body;
-    if (!avatar_url) {
-      res.status(500).json("Не заполнены обязательные поля");
-      return;
-    };
-    const user = await User.findOne({ where: { id }});
-    user.avatar_url = avatar_url;
+    const { address, email, name, phone } = req.body;
+    const userId = req.query.id;
+
+    const user = await User.findOne({ where: { id: userId }});
+    user.name = name;
+    user.address = address;
+    user.email = email;
+    user.phone = phone;
     await user.save();
     res.send("Пользователь обновлён");
   } catch (error) {

@@ -8,7 +8,7 @@ router.post("/signin", signin);
 router.post("/signup", signup);
 router.get("/getUserList", getUserList);
 router.get("/destroyUsers", destroyUsers);
-router.post("/update", userUpdate)
+router.put("/update", userUpdate)
 router.get("/auth", auth, authUser);
 
 export default router;

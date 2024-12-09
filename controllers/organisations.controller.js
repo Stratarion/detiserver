@@ -2,6 +2,7 @@ import db from "../models/index.js";
 import { Sequelize } from "sequelize";
 
 const Organisation = db.organisation;
+const Reviews = db.review;
 
 
 export const getOrganisations = async (req, res) => {
@@ -37,10 +38,104 @@ export const getOrganisations = async (req, res) => {
   });
 };
 
+export const getSchoolList = async (req, res) => {
+  try {
+    const { filters, page, limit } = req.body;
+    console.log(filters);
+    console.log("Loading");
+    const organisations = await Organisation.findAll({
+      where: {
+        [Sequelize.Op.and]: [
+          { type: "school" },
+          { name: { [Sequelize.Op.substring]: filters?.name || "" } },
+          { schoolType: { [Sequelize.Op.substring]: filters?.type || "" } },
+          { address: { [Sequelize.Op.substring]: filters?.city || "" } },
+          { costInfo: { [Sequelize.Op.between]: filters?.minPrice ? [filters?.minPrice, filters?.maxPrice] : [0, 1000000] } },
+        ]
+      }
+    })
+    console.log(organisations)
+    const mappedOrganisation = organisations.map(item => item.dataValues);
+
+    const result = await Promise.all(mappedOrganisation.map(async (organisation) => {
+      const reviews = await Reviews.findAll({
+        where: { orgId: organisation.id },
+      });
+
+      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+      const reviewCount = reviews.length;
+      return {
+          ...organisation,
+          totalRating,
+          reviewCount,
+      };
+    }))
+    const total = result.length - 1;
+    res.json({ data: result, currentPage: Number(page), numberOfPages: Math.ceil(total / limit), totalCount: total});
+  } catch (err) {
+    res.status(500).send({
+      message:
+        err.message || "Ошибка при получении списка Школ"
+    });
+  }
+}
+
+
+export const getGardenList = async (req, res) => {
+  try {
+    const { filters, page, limit } = req.body;
+    console.log(filters);
+    console.log("Loading");
+    const organisations = await Organisation.findAll({
+      where: {
+        [Sequelize.Op.and]: [
+          { type: "garden" },
+          // { name: { [Sequelize.Op.substring]: filters?.name || "" } },
+          // { schoolType: { [Sequelize.Op.substring]: filters?.type || "" } },
+          // { address: { [Sequelize.Op.substring]: filters?.city || "" } },
+          // { costInfo: { [Sequelize.Op.between]: filters?.minPrice ? [filters?.minPrice, filters?.maxPrice] : [0, 1000000] } },
+        ]
+      }
+    })
+    console.log(organisations)
+    const mappedOrganisation = organisations.map(item => item.dataValues);
+
+    const result = await Promise.all(mappedOrganisation.map(async (organisation) => {
+      const reviews = await Reviews.findAll({
+        where: { orgId: organisation.id },
+      });
+
+      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+      const reviewCount = reviews.length;
+      return {
+          ...organisation,
+          totalRating,
+          reviewCount,
+      };
+    }))
+    const total = result.length - 1;
+    res.json({ data: result, currentPage: Number(page), numberOfPages: Math.ceil(total / limit), totalCount: total});
+  } catch (err) {
+    res.status(500).send({
+      message:
+        err.message || "Ошибка при получении списка Садов"
+    });
+  }
+}
+
 export const getOrganisationById = async (req, res) => {
   const id = req.query.id;
   const organisation = await Organisation.findOne({ where: { id } });
-  res.json(organisation);
+  const reviews = await Reviews.findAll({ where: { orgId: id } });
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  console.log(reviews)
+  res.json({...organisation.dataValues, reviewCount: reviews.length, totalRating });
+}
+
+export const getOrganisationByUserId = async (req, res) => {
+  const userId = req.query.id;
+  const organisations = await Organisation.findAll({ where: { creater_id: userId } });
+  res.json(organisations);
 }
 
 export const createOrganisation = async (req, res) => {

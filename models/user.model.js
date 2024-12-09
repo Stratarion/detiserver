@@ -28,6 +28,9 @@ export const UserModel = (sequelize, Sequelize) => {
     email: {
       type: Sequelize.STRING,
     },
+    userType: {
+      type: Sequelize.STRING,
+    },
     password: {
       type: Sequelize.STRING,
     },

@@ -6,15 +6,12 @@ import * as path from 'path';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
 import defaultHeaders from "./middleware/headers.js";
-import postRoutes from './routes/posts.js';
 import userRouter from "./routes/user.js";
 import organisationsRoutes from "./routes/organisations.js";
 import uploadRouter from "./routes/upload.js";
-import workerRouter from "./routes/worker.js";
-import lessonRouter from "./routes/lesson.js";
-import shedulleRouter from "./routes/shedulle.js";
-import infoRouter from "./routes/info.js";
-import gartensRouter from "./routes/gartens.js";
+import reviewRouter from "./routes/reviews.js";
+import servicesRouter from "./routes/services.js";
+import scheduleRouter from "./routes/schedule.js";
 import db from './models/index.js';
 
 const app = express();
@@ -32,15 +29,12 @@ app.get("/", (req, res) => {
 });
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/posts', postRoutes);
 app.use('/organisations', organisationsRoutes);
-app.use('/worker', workerRouter);
 app.use('/user', userRouter);
-app.use('/lesson', lessonRouter);
 app.use('/upload', uploadRouter);
-app.use('/info', infoRouter);
-app.use('/shedulle', shedulleRouter);
-app.use('/gartens', gartensRouter);
+app.use('/reviews', reviewRouter);
+app.use('/services', servicesRouter);
+app.use('/schedule', scheduleRouter);
 
 const PORT = process.env.PORT|| 5000;
 
