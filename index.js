@@ -12,6 +12,7 @@ import uploadRouter from "./routes/upload.js";
 import reviewRouter from "./routes/reviews.js";
 import servicesRouter from "./routes/services.js";
 import scheduleRouter from "./routes/schedule.js";
+import bidsRouter from "./routes/bids.js";
 import db from './models/index.js';
 
 const app = express();
@@ -35,7 +36,7 @@ app.use('/upload', uploadRouter);
 app.use('/reviews', reviewRouter);
 app.use('/services', servicesRouter);
 app.use('/schedule', scheduleRouter);
-
+app.use('/bids', bidsRouter);
 const PORT = process.env.PORT|| 5000;
 
 db.sequelize.sync();
