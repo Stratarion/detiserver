@@ -57,3 +57,29 @@ export const checkUserReview = async (req, res) => {
     });
   }
 }
+
+export const updateReview = async (req, res) => {
+  try {
+    const { content, rating, id } = req.body;
+    const updatedReview = await Reviews.update({ content, rating }, { where: { id } });
+    res.json(updatedReview);
+  } catch (error) {
+    res.status(500).send({
+      message:
+        err.message || "Произошла ошибка при изменении отзыва"
+    });
+  }
+}
+
+export const deleteReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedReview = await Reviews.destroy({ where: { id } });
+    res.json(deletedReview);
+  } catch (error) {
+    res.status(500).send({
+      message:
+        err.message || "Произошла ошибка при удалении отзыва"
+    });
+  }
+}

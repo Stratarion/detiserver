@@ -50,3 +50,25 @@ export const createScheduleEvent = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const deleteScheduleEvent = async (req, res) => {
+  try {
+    const event = await Schedule.findByPk(req.query.id);
+    if (!event) return res.status(404).json({ message: "Event not found" });
+    await event.destroy();
+    res.status(204).json();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export const updateScheduleEvent = async (req, res) => {
+  try {
+    const event = await Schedule.findByPk(req.body.id);
+    if (!event) return res.status(404).json({ message: "Event not found" });
+    await event.update(req.body);
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
